@@ -14,7 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Forms\JobOfferGridForm.cs">
+      <Compile Update="Forms\JobOffer\JobOfferGridForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\JobOfferDemand\JobOfferDemandEditForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\JobOfferDemand\JobOfferDemandForm.cs">
         <SubType>Form</SubType>
       </Compile>
     </ItemGroup>
