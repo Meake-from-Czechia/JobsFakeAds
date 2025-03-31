@@ -64,7 +64,7 @@ public partial class JobOfferDemandEditForm : Form
 
     private bool IsMessageValid()
     {
-        if (string.IsNullOrWhiteSpace(richTextBox_Letter.Text) || richTextBox_Letter.Text.Length < 10)
+        if (string.IsNullOrWhiteSpace(richTextBox_Letter.Text) || richTextBox_Letter.Text.Length < 10 || richTextBox_Letter.Text.Length > 8000)
         {
             errorProvider.SetError(richTextBox_Letter, "Message needs to be filled and at least 10 characters long");
             return false;

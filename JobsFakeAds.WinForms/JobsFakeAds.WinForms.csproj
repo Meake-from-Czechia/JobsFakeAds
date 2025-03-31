@@ -23,6 +23,9 @@
       <Compile Update="Forms\JobOfferDemand\JobOfferDemandForm.cs">
         <SubType>Form</SubType>
       </Compile>
+      <Compile Update="Forms\GraphForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>

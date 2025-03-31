@@ -34,9 +34,9 @@ partial class JobOfferDemandForm
         dataGridView_JobOfferDemands = new System.Windows.Forms.DataGridView();
         ((System.ComponentModel.ISupportInitialize)dataGridView_JobOfferDemands).BeginInit();
         SuspendLayout();
-        //
+        // 
         // dataGridView_JobOfferDemands
-        //
+        // 
         dataGridView_JobOfferDemands.AllowUserToAddRows = false;
         dataGridView_JobOfferDemands.AllowUserToDeleteRows = false;
         dataGridView_JobOfferDemands.Location = new System.Drawing.Point(12, 12);
@@ -46,12 +46,12 @@ partial class JobOfferDemandForm
         dataGridView_JobOfferDemands.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
         dataGridView_JobOfferDemands.Size = new System.Drawing.Size(776, 426);
         dataGridView_JobOfferDemands.TabIndex = 0;
-        //
+        // 
         // JobOfferDemandForm
-        //
+        // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        ClientSize = new System.Drawing.Size(800, 450);
+        ClientSize = new System.Drawing.Size(800, 468);
         Controls.Add(dataGridView_JobOfferDemands);
         Text = "JobOfferDemandForm";
         ((System.ComponentModel.ISupportInitialize)dataGridView_JobOfferDemands).EndInit();
