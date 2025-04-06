@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JobsFakeAds.WinForms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b021c52a2d070ab6e22c5dffed94850f554e392a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a86eab3cc04104fce253aee99befefffe2effb14")]
 [assembly: System.Reflection.AssemblyProductAttribute("JobsFakeAds.WinForms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JobsFakeAds.WinForms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

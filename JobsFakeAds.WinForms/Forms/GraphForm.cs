@@ -1,4 +1,5 @@
-﻿using JobsFakeAds.WinForms.Data;
+﻿using System.Drawing.Drawing2D;
+using JobsFakeAds.WinForms.Data;
 
 namespace JobsFakeAds.WinForms.Forms;
 
@@ -8,11 +9,16 @@ public partial class GraphForm : Form
     private int _width;
     private int _height;
     private Pen _axisPen;
-    private Brush _dataBrush;
     private float _axisPadding;
+    private float _startX;
+    private float _startY;
+    private float _endX;
+    private float _endY;
     private List<GraphData> _graphData;
     private int _maxCount;
     private int _dataCount;
+    private int _dataPointPadding;
+    private Random _random;
 
     public GraphForm()
     {
@@ -21,9 +27,13 @@ public partial class GraphForm : Form
         _height = pictureBox.Height;
         _appDbContext = new AppDbContext();
         _axisPen = new Pen(Color.Black, 1);
-        _dataBrush = new SolidBrush(Color.Blue);
-        _axisPadding = 0.1f;
+        _axisPadding = 0.15f;
+        _startX = (float)(_axisPadding * _width);
+        _startY = (float)(_axisPadding * _height);
+        _endX = (float)((1f - _axisPadding) * _width);
+        _endY = (float)((1f - _axisPadding) * _height);
         _graphData = new List<GraphData>();
+        _dataPointPadding = 3; // jaký podíl má padding k datovému sloupci (3 = jedna třetina je padding)
         foreach (var company in _appDbContext.Companies.ToList().OrderBy(c => c.Name))
         {
             _graphData.Add(new(company.Name, _appDbContext.JobOffers.Where(j => j.Company == company).ToList().Count));
@@ -31,6 +41,7 @@ public partial class GraphForm : Form
 
         _maxCount = _graphData.MaxBy(x => x.OfferCount).OfferCount;
         _dataCount = _graphData.Count;
+        _random = new Random();
     }
 
     private void pictureBox_Paint(object sender, PaintEventArgs e)
@@ -46,27 +57,59 @@ public partial class GraphForm : Form
     private void DrawGraph(Graphics g)
     {
         DrawAxis(g);
+        DrawData(g);
     }
 
     private void DrawData(Graphics g)
     {
-        int offset = 0;
-        foreach (var data in _graphData)
+        // Výška, ve které se bude zobrazovat graf
+        float maxDataHeight = (float)((1 - _axisPadding) * _height - _axisPadding * _height);
+        // Velikost jednoho "bodu" -> pokud máme např. maximální počet nabídek 3, rozdělí se dostupná výška na 3 části
+        float dataPointHeight = maxDataHeight / _maxCount;
+
+        // Šířka, ve které se bude zobrazovat graf
+        float maxDataWidth = (float)((1 - _axisPadding) * _width - _axisPadding * _width);
+        // Šířka jednoho sloupce i s paddingy
+        float dataPointWidth = maxDataWidth / _dataCount;
+        // Šířka paddingu jednoho sloupce
+        float dataPadding = dataPointWidth / _dataPointPadding;
+        // Šířka dat jednoho sloupce
+        float dataWidth = dataPointWidth - dataPadding;
+        GraphData data;
+        for (int i = 0; i < _graphData.Count; i++)
         {
-            g.FillRectangle(_dataBrush, 0.5f + (float)(_axisPadding * _width) + offset * ((_width - 0.5f) / _dataCount),
-                (_axisPadding * _height),
-                0.5f + (float)(_axisPadding * _width) + offset * ((_width - 0.5f) / _dataCount) + ((_width - 0.5f) / _dataCount), _height);
+            data = _graphData[i];
+            float graphX = (_startX + dataPadding + i * dataPointWidth);
+            g.FillRectangle(new SolidBrush(Color.FromArgb(_random.Next(256), _random.Next(256), _random.Next(256))),
+                graphX, _startY, dataWidth, dataPointHeight * data.OfferCount);
+            Matrix transform = g.Transform;
+            g.ResetTransform();
+            using (Font font = new Font("Arial", 12))
+            {
+                string companyName = data.CompanyName;
+                SizeF textSize = g.MeasureString(companyName, font);
+                float centerX = graphX + (dataWidth / 2);
+                float textY = pictureBox.Height - _startY + 30;
+                g.TranslateTransform(centerX, textY);
+                g.RotateTransform(-90); // -90 degrees rotates counterclockwise (to the left)
+                g.DrawString(companyName, font, Brushes.Black, -textSize.Width / 2, 0);
+            }
+            g.Transform = transform;
         }
     }
 
     private void DrawAxis(Graphics g)
     {
+        _startX = (float)(_axisPadding * _width);
+        _startY = (float)(_axisPadding * _height);
+        _endX = (float)((1f - _axisPadding) * _width);
+        _endY = (float)((1f - _axisPadding) * _height);
         // Axis x
-        g.DrawLine(_axisPen, (float)(_axisPadding * _width), (float)(_axisPadding * _height),
-            (float)((1f - _axisPadding) * _width), (float)(_axisPadding * _height));
+        g.DrawLine(_axisPen, _startX, _startY,
+            _endX, _startY);
         // Axis y
-        g.DrawLine(_axisPen, (float)(_axisPadding * _width), (float)(_axisPadding * _height),
-            (float)((_axisPadding) * _width), (float)((1 - _axisPadding) * _height));
+        g.DrawLine(_axisPen, _startX, _startY,
+            _startX, _endY);
     }
 
     private void pictureBox_Resize(object sender, EventArgs e)
@@ -83,5 +126,6 @@ public class GraphData
     public GraphData(string companyName, int offerCount)
     {
         CompanyName = companyName;
+        OfferCount = offerCount;
     }
 }
