@@ -56,8 +56,8 @@ public partial class GraphForm : Form
 
     private void DrawGraph(Graphics g)
     {
-        DrawAxis(g);
         DrawData(g);
+        DrawAxis(g);
     }
 
     private void DrawData(Graphics g)
@@ -84,12 +84,12 @@ public partial class GraphForm : Form
                 graphX, _startY, dataWidth, dataPointHeight * data.OfferCount);
             Matrix transform = g.Transform;
             g.ResetTransform();
-            using (Font font = new Font("Arial", 12))
+            using (Font font = new Font("Arial", _height/50f, FontStyle.Bold))
             {
                 string companyName = data.CompanyName;
                 SizeF textSize = g.MeasureString(companyName, font);
                 float centerX = graphX + (dataWidth / 2);
-                float textY = pictureBox.Height - _startY + 30;
+                float textY = pictureBox.Height - _startY + textSize.Width/2;
                 g.TranslateTransform(centerX, textY);
                 g.RotateTransform(-90); // -90 degrees rotates counterclockwise (to the left)
                 g.DrawString(companyName, font, Brushes.Black, -textSize.Width / 2, 0);

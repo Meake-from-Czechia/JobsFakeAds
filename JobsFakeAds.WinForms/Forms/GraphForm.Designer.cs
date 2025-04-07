@@ -38,9 +38,9 @@ partial class GraphForm
         // pictureBox
         // 
         pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
-        pictureBox.Location = new System.Drawing.Point(12, 12);
+        pictureBox.Location = new System.Drawing.Point(0, 0);
         pictureBox.Name = "pictureBox";
-        pictureBox.Size = new System.Drawing.Size(776, 426);
+        pictureBox.Size = new System.Drawing.Size(799, 451);
         pictureBox.TabIndex = 0;
         pictureBox.TabStop = false;
         pictureBox.Paint += pictureBox_Paint;
